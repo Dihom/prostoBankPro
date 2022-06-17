@@ -126,18 +126,41 @@ const section1 = document.querySelector('#section--1');
 btnScrollTo.addEventListener('click', function(e) {
 
     const section1Coords = section1.getBoundingClientRect();
-    console.log(section1Coords);
-    console.log(e.target.getBoundingClientRect());
-    console.log('Текущее прокручивани: x, y', window.pageXOffset, window.pageYOffset);
-    console.log('Ширина и высота viewport', document.documentElement.clientWidth, document.documentElement.clientHeight);
+    // console.log(section1Coords);
+    // console.log(e.target.getBoundingClientRect());
+    // console.log('Текущее прокручивание: x, y', window.pageXOffset, window.pageYOffset);
+    // console.log('Ширина и высота viewport', document.documentElement.clientWidth, document.documentElement.clientHeight);
 
     // window.scrollTo(section1Coords.left + window.pageXOffset, section1Coords.top + window.pageYOffset);
 
-    window.scrollTo({
-      left: section1Coords.left + window.pageXOffset,
-      top: section1Coords.top + window.pageYOffset,
-      behavior: 'smooth',
+      // Old method
+    // window.scrollTo({
+    //   left: section1Coords.left + window.pageXOffset, 
+    //   top: section1Coords.top + window.pageYOffset,
+    //   behavior: 'smooth',
+    // });
+
+      // New method
+    section1.scrollIntoView({behavior: 'smooth'});
   });
 
-  // section1.scrollIntoView({behavior: 'smooth'});
-});
+
+  // Виды событий и обработчиков событий
+
+  const h1 = document.querySelector('h1');
+  // const clickMouseEnterH1 = function(e) {
+  //   alert('addEventListener: You are now at the h1 element');
+  //   h1.removeEventListener('click', clickMouseEnterH1);
+  // };
+
+  const clickMouseEnterH1 = function(e) {
+    alert('addEventListener: You are now at the h1 element');
+  };
+
+  h1.addEventListener('click', clickMouseEnterH1);
+
+  setTimeout(() => h1.removeEventListener('click', clickMouseEnterH1), 5000)
+
+  // h1.onclick = function (e) {
+  //   alert('onclick: You have clicked the h1 element');
+  // }
