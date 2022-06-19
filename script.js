@@ -143,34 +143,114 @@ nav.addEventListener('mouseout', navLinksHoverAnimation.bind(1));
 /////////////////////////////////////////////////////
 // Sticky navigation
 
-const section1Coords = section1.getBoundingClientRect();
-// console.log(section1Coords);
+// const section1Coords = section1.getBoundingClientRect();
+// // console.log(section1Coords);
 
-window.addEventListener('scroll', function () {
-  // console.log(window.scrollY);
+// window.addEventListener('scroll', function () {
+//   // console.log(window.scrollY);
 
-  if (window.scrollY > section1Coords.top) {
-    nav.classList.add('sticky');
-  } else {
-    nav.classList.remove('sticky');
-  }
-});
+//   if (window.scrollY > section1Coords.top) {
+//     nav.classList.add('sticky');
+//   } else {
+//     nav.classList.remove('sticky');
+//   }
+// });
 
 
 //////////////////////////////////////////////////
 // Sticky navigation - Intersection Observer API
 
-const observerCallback = function(entries, observer) {
-  
+// const observerCallback = function(entries, observer) {
+//   entries.forEach(entry => {
+//     console.log(entry);
+//   })
+// }
+
+// const observerOptions = {
+//   root: null,
+//   threshold: [0, 0.2],
+// };
+
+// const observer = new IntersectionObserver(observerCallback, observerOptions);
+// observer.observe(section1);
+
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+// console.log(navHeight);
+
+const getStickyNav = function (entries) {
+  const entry = entries[0];
+  // console.log(entry);
+  if (!entry.isIntersecting) {
+    nav.classList.add('sticky');
+  } else {
+  nav.classList.remove('sticky');
+  }
 }
 
-const observerOptions = {
+const headerObserver = new IntersectionObserver(getStickyNav, {
   root: null,
-  threshold: 0.1
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+headerObserver.observe(header);
+
+
+///////////////////////////////////////////////////
+// Появление частей сайта при прокручивании
+const allSection = document.querySelectorAll('.section');
+
+const appearanceSection = function(entries, observer) {
+  const entry = entries[0];
+  // console.log(entry);
+
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+
+  observer.unobserve(entry.target);
 };
 
-const observer = new IntersectionObserver(observerCallback, observerOptions);
-observer.observe(section1);
+const sectionObserver = new IntersectionObserver(appearanceSection, {
+  root: null,
+  threshold: 0.25,
+});
+
+allSection.forEach(function(section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden')
+});
+
+
+///////////////////////////////////////////////////
+// Lazy loading ленивая загрузка для изображений
+const lazyImages = document.querySelectorAll('img[data-src]');
+
+const loadImages = function (entries, observer) {
+  const entry = entries[0];
+  console.log(entry);
+
+  if(!entry.isIntersecting) return;
+
+  // Меняем изображение на изображение с высоким разрешением
+  entry.target.src = entry.target.dataset.src;
+  // entry.target.classList.remove('lazy-img');
+
+  entry.target.addEventListener('load', function() {
+    entry.target.classList.remove('lazy-img');
+  });
+  observer.unobserve(entry.target);
+};
+
+const lazyImagesObserver = new IntersectionObserver(loadImages, {
+  root: null,
+  threshold: 0.7,
+  // rootMargin: '300px',
+});
+
+lazyImages.forEach(image => lazyImagesObserver.observe(image));
+
+
+
 
 
 /////////////////////////////////////////////////
