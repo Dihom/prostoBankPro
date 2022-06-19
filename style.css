@@ -425,11 +425,15 @@ h4 {
 }
 
 .slider__btn--left {
+  display: flex;
+  justify-content: center;
   left: 6%;
   transform: translate(-50%, -50%);
 }
 
 .slider__btn--right {
+  display: flex;
+  justify-content: center;
   right: 6%;
   transform: translate(50%, -50%);
 }
@@ -460,7 +464,7 @@ h4 {
 
 .dots__dot--active {
   /* background-color: #fff; */
-  background-color: #888;
+  background-color: rgb(46, 44, 44);
   opacity: 1;
 }
 
