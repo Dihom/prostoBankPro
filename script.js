@@ -35,8 +35,8 @@ btnsOpenModalWindow.forEach(button => button.addEventListener('click', openModal
 // for (let i = 0; i < btnsOpenModalWindow.length; i++)
 //   btnsOpenModalWindow[i].addEventListener('click', openModalWindow);
 
-// btnCloseModalWindow.addEventListener('click', closeModalWindow);
-// overlay.addEventListener('click', closeModalWindow);
+btnCloseModalWindow.addEventListener('click', closeModalWindow);
+overlay.addEventListener('click', closeModalWindow);
 
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape' && !modalWindow.classList.contains('hidden')) {
@@ -87,7 +87,7 @@ btnScrollTo.addEventListener('click', function(e) {
     e.preventDefault();
 
   // 2. Определить target элемент
-    console.log(e.target);
+    // console.log(e.target);
     if(e.target.classList.contains('nav__link')) {
       const href = e.target.getAttribute('href');
       console.log(href);
@@ -509,3 +509,21 @@ dotContainer.addEventListener('click', function(e) {
 // console.log(h2.nextElementSibling)
 
 // console.log(h1.parentElement.children);
+
+
+///////////////////////////////////////////////
+// DLifecycle DOM Events
+
+// document.addEventListener('DOMContentLoaded', function(e) {
+//   console.log('Дерево DOM создано!', e)
+// });
+
+// window.addEventListener('load', function(e) {
+//   console.log('Страница полностью загружена', e)
+// });
+
+// window.addEventListener('beforeunload', function(e) {
+//   e.preventDefault();
+//   console.log(e);
+//   e.returnValue = '';
+// });
